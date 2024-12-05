@@ -1,7 +1,7 @@
 # Movie Collection Grid Interface
 
 A Next.js application for managing and displaying a movie collection with user authentication, admin panel, and MongoDB integration.
-*Copy zip.file unzip it to a place convenient for you, in a new terminal install dependencies using the command npm install --legacy-peer-deps -> npm run dev*
+*Copy zip.file unzip it to a place convenient for you, in a new terminal install dependencies using the command: npm install --legacy-peer-deps -> npm run dev
 
 ## Project Structure
 
