@@ -3,6 +3,9 @@
 A Next.js application for managing and displaying a movie collection with user authentication, admin panel, and MongoDB integration.
 *Copy zip.file unzip it to a place convenient for you, in a new terminal install dependencies using the command: npm install --legacy-peer-deps -> npm run dev
 
+![image](https://github.com/user-attachments/assets/d30f5673-7ae8-40db-bc39-2eb911a12dfa)
+
+
 ## Project Structure
 
 ### Client-Side (Frontend)
