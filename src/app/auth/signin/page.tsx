@@ -1,46 +1,55 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { signIn } from 'next-auth/react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import Link from 'next/link'
+import { useState } from 'react';
+import { Suspense } from 'react';
+import { signIn } from 'next-auth/react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+
+// просим Next не делать SSG для этой страницы
+export const dynamic = 'force-dynamic';
 
 export default function SignInPage() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || '/'
-  
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  })
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  return (
+    <Suspense fallback={null}>
+      <SignInContent />
+    </Suspense>
+  );
+}
+
+function SignInContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl') || '/';
+
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
+    e.preventDefault();
+    setError('');
+    setLoading(true);
 
     try {
       const result = await signIn('credentials', {
         email: formData.email,
         password: formData.password,
-        redirect: false
-      })
+        redirect: false,
+      });
 
       if (result?.error) {
-        setError(result.error)
+        setError(result.error);
       } else {
-        router.push(callbackUrl)
-        router.refresh()
+        router.push(callbackUrl);
+        router.refresh();
       }
-    } catch (error) {
-      setError('An error occurred during sign in')
+    } catch {
+      setError('An error occurred during sign in');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0F1318]">
@@ -99,5 +108,5 @@ export default function SignInPage() {
         </form>
       </div>
     </div>
-  )
+  );
 }
