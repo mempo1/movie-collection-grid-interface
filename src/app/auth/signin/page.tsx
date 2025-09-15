@@ -6,7 +6,6 @@ import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-// просим Next не делать SSG для этой страницы
 export const dynamic = 'force-dynamic';
 
 export default function SignInPage() {
