@@ -33,7 +33,7 @@ export default function CancelPage() {
           </h1>
           
           <p className="text-xl text-gray-300 mb-8">
-            Ваш платеж был отменен. Никакие средства не были списаны с вашего счета.
+            Ваш платіж було скасовано. Жодних коштів не було списано з вашого рахунку.
           </p>
 
           {/* Информационный блок */}
@@ -42,15 +42,15 @@ export default function CancelPage() {
             <ul className="text-left text-gray-300 space-y-2">
               <li className="flex items-start">
                 <span className="text-orange-400 mr-2">•</span>
-                Вы отменили процесс оплаты
+                Ви скасували процес оплати
               </li>
               <li className="flex items-start">
                 <span className="text-orange-400 mr-2">•</span>
-                Никакие деньги не были списаны
+                Жодних грошей не було списано
               </li>
               <li className="flex items-start">
                 <span className="text-orange-400 mr-2">•</span>
-                Вы можете попробовать еще раз в любое время
+                Ви можете спробувати ще раз у будь-який час
               </li>
             </ul>
           </div>
@@ -63,15 +63,15 @@ export default function CancelPage() {
             <ul className="text-left text-gray-300 space-y-2">
               <li className="flex items-start">
                 <span className="text-blue-400 mr-2">•</span>
-                Вы передумали совершать платеж
+                Ви передумали здійснювати платіж
               </li>
               <li className="flex items-start">
                 <span className="text-blue-400 mr-2">•</span>
-                Возникли технические проблемы
+                Виникли технічні проблеми
               </li>
               <li className="flex items-start">
                 <span className="text-blue-400 mr-2">•</span>
-                Нужно проверить данные карты
+                Потрібно перевірити дані картки
               </li>
             </ul>
           </div>
@@ -82,24 +82,24 @@ export default function CancelPage() {
               href="/support"
               className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
-              Попробовать снова
+              Спробувати знову
             </Link>
             <Link
               href="/"
               className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
-              Вернуться на главную
+              Повернутися на головну
             </Link>
           </div>
 
           {/* Поддержка */}
           <div className="mt-12 pt-8 border-t border-gray-700">
             <p className="text-gray-400 text-sm mb-4">
-              Если у вас возникли проблемы с оплатой, свяжитесь с нами
+              Якщо у вас виникли проблеми з оплатою, зв'яжіться з нами
             </p>
             <div className="flex justify-center space-x-4">
               <span className="text-gray-500 text-sm">
-                Мы всегда готовы помочь!
+               Ми завжди готові допомогти!
               </span>
             </div>
           </div>
