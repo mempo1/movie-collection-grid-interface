@@ -79,11 +79,11 @@ export default function SupportPage() {
         // Редирект на Stripe Checkout
         window.location.href = data.url;
       } else {
-        alert(data.error || 'Произошла ошибка при создании платежа');
+        alert(data.error || 'Сталася помилка під час створення платежу');
       }
     } catch (error) {
       console.error('Error creating checkout session:', error);
-      alert('Произошла ошибка при создании платежа');
+      alert('Сталася помилка під час створення платежу');
     } finally {
       setIsLoading(false);
     }
@@ -95,9 +95,9 @@ export default function SupportPage() {
         <div className="max-w-2xl mx-auto">
           {/* Заголовок */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4">Поддержать проект</h1>
+            <h1 className="text-4xl font-bold mb-4">Підтримати проектт</h1>
             <p className="text-gray-300 text-lg">
-              Ваша поддержка помогает нам развивать проект и добавлять новые функции
+              Ваша підтримка допомагає нам розвивати проект та додавати нові функції
             </p>
           </div>
 
@@ -116,7 +116,7 @@ export default function SupportPage() {
 
           {/* Выбор суммы */}
           <div className="bg-gray-800 rounded-lg p-8">
-            <h2 className="text-2xl font-semibold mb-6">Выберите сумму</h2>
+            <h2 className="text-2xl font-semibold mb-6">Виберіть суму</h2>
             
             {/* Предустановленные суммы */}
             <div className="grid grid-cols-3 gap-4 mb-6">
@@ -138,7 +138,7 @@ export default function SupportPage() {
             {/* Произвольная сумма */}
             <div className="mb-6">
               <label htmlFor="customAmount" className="block text-sm font-medium mb-2">
-                Или введите свою сумму (USD):
+               Або введіть суму (USD):
               </label>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
@@ -160,7 +160,7 @@ export default function SupportPage() {
             {/* Отображение выбранной суммы */}
             <div className="mb-6 p-4 bg-gray-700 rounded-lg">
               <div className="flex justify-between items-center">
-                <span className="text-gray-300">Сумма к оплате:</span>
+                <span className="text-gray-300">Сума до сплати:</span>
                 <span className="text-xl font-bold text-green-400">
                   ${(selectedAmount / 100).toFixed(2)}
                 </span>
@@ -171,7 +171,7 @@ export default function SupportPage() {
             {session?.user && (
               <div className="mb-6 p-4 bg-blue-900/20 border border-blue-700 rounded-lg">
                 <p className="text-blue-300 text-sm">
-                  Вы вошли как: {session.user.email}
+                  Ви увійшли як: {session.user.email}
                 </p>
               </div>
             )}
@@ -191,8 +191,8 @@ export default function SupportPage() {
 
             {/* Информация о безопасности */}
             <div className="mt-6 text-center text-sm text-gray-400">
-              <p>Безопасная оплата через Stripe</p>
-              <p className="mt-1">Мы не храним данные ваших карт</p>
+              <p>Безпечна оплата через Stripe</p>
+              <p className="mt-1">Ми не зберігаємо дані ваших карток</p>
             </div>
           </div>
         </div>
