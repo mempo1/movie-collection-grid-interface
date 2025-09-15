@@ -11,7 +11,7 @@ function Loading() {
     <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
       <div className="text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-400 mx-auto mb-4"></div>
-        <p className="text-gray-300">Обрабатываем ваш платеж...</p>
+        <p className="text-gray-300">Обробляємо ваш платіж...</p>
       </div>
     </div>
   );
@@ -46,7 +46,7 @@ function SuccessView() {
           </h1>
 
           <p className="text-xl text-gray-300 mb-8">
-            Ваш платеж успешно обработан. Мы очень ценим вашу поддержку!
+            Ваш платіж успішно опрацьовано. Ми дуже цінуємо вашу підтримку!
           </p>
 
           {/* Информация о платеже */}
@@ -61,11 +61,11 @@ function SuccessView() {
 
           {/* Дополнительная информация */}
           <div className="bg-blue-900/20 border border-blue-700 rounded-lg p-6 mb-8">
-            <h3 className="text-lg font-semibold mb-3 text-blue-300">Что дальше?</h3>
+            <h3 className="text-lg font-semibold mb-3 text-blue-300">Що далі?</h3>
             <ul className="text-left text-gray-300 space-y-2">
-              <li className="flex items-start"><span className="text-blue-400 mr-2">•</span>Вы получите подтверждение на email</li>
-              <li className="flex items-start"><span className="text-blue-400 mr-2">•</span>Ваша поддержка поможет нам улучшить проект</li>
-              <li className="flex items-start"><span className="text-blue-400 mr-2">•</span>Следите за обновлениями в нашем проекте</li>
+              <li className="flex items-start"><span className="text-blue-400 mr-2">•</span>Ви отримаєте підтвердження на email</li>
+              <li className="flex items-start"><span className="text-blue-400 mr-2">•</span>Ваша підтримка допоможе нам покращити проект</li>
+              <li className="flex items-start"><span className="text-blue-400 mr-2">•</span>Слідкуйте за оновленнями у нашому проектіе</li>
             </ul>
           </div>
 
@@ -75,21 +75,21 @@ function SuccessView() {
               href="/support"
               className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
-              Поддержать еще раз
+              Підтримати ще раз
             </Link>
             <Link
               href="/"
               className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
-              Вернуться на главную
+              Повернутися на головну
             </Link>
           </div>
 
           {/* Социальные сети или дополнительные ссылки */}
           <div className="mt-12 pt-8 border-t border-gray-700">
-            <p className="text-gray-400 text-sm mb-4">Поделитесь нашим проектом с друзьями!</p>
+            <p className="text-gray-400 text-sm mb-4">Поділіться нашим проектом із друзями!</p>
             <div className="flex justify-center space-x-4">
-              <span className="text-gray-500 text-sm">Спасибо за вашу поддержку! </span>
+              <span className="text-gray-500 text-sm">Дякую за вашу підтримку!</span>
             </div>
           </div>
         </div>
