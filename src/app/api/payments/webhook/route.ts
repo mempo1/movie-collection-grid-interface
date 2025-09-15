@@ -104,22 +104,26 @@ export async function POST(request: NextRequest) {
     }
 
     // Обрабатываем неудачные платежи
-    else if (event.type === 'payment_intent.payment_failed') {
-      const paymentIntent = event.data.object as Stripe.PaymentIntent;
+   else if (event.type === 'checkout.session.expired') {
+      const session = event.data.object as Stripe.Checkout.Session;
       
       await dbConnect();
 
       try {
-        await Payment.findOneAndUpdate(
-          { paymentIntentId: paymentIntent.id },
-          { status: 'failed' },
-          { new: true }
-        );
+        const payment = new Payment({
+          user: session.metadata?.userId || undefined,
+          email: session.metadata?.userEmail || session.customer_details?.email || null,
+          amount: session.amount_total || 0,
+          currency: session.currency || 'usd',
+          status: 'canceled',
+          sessionId: session.id,
+        });
 
-        console.log('Payment status updated to failed:', paymentIntent.id);
+        await payment.save();
+        console.log('Canceled payment saved:', session.id);
 
       } catch (dbError) {
-        console.error('Error updating payment status to failed:', dbError);
+        console.error('Error saving canceled payment:', dbError);
       }
     }
 
