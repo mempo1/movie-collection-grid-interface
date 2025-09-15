@@ -28,9 +28,8 @@ export async function POST(request: NextRequest) {
     let event: Stripe.Event;
 
     try {
-      // Временно отключаем проверку подписи для тестирования
-      event = JSON.parse(body);
-      // event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+      // Включаем проверку подписи для безопасности
+      event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
     } catch (err) {
       console.error('Webhook signature verification failed:', err);
       return NextResponse.json(
@@ -111,16 +110,70 @@ export async function POST(request: NextRequest) {
       await dbConnect();
 
       try {
-        await Payment.findOneAndUpdate(
+        // Сначала пытаемся обновить существующий платеж
+        const updatedPayment = await Payment.findOneAndUpdate(
           { paymentIntentId: paymentIntent.id },
           { status: 'failed' },
           { new: true }
         );
 
-        console.log('Payment status updated to failed:', paymentIntent.id);
+        // Если платеж не найден, создаем новый
+        if (!updatedPayment) {
+          const payment = new Payment({
+            user: paymentIntent.metadata?.userId || undefined,
+            email: paymentIntent.receipt_email || undefined,
+            amount: paymentIntent.amount,
+            currency: paymentIntent.currency,
+            status: 'failed',
+            sessionId: paymentIntent.metadata?.sessionId || `failed_${paymentIntent.id}`,
+            paymentIntentId: paymentIntent.id,
+          });
+
+          await payment.save();
+          console.log('Failed payment saved:', paymentIntent.id);
+        } else {
+          console.log('Payment status updated to failed:', paymentIntent.id);
+        }
 
       } catch (dbError) {
-        console.error('Error updating payment status to failed:', dbError);
+        console.error('Error handling failed payment:', dbError);
+      }
+    }
+
+    // Обрабатываем async payment failed
+    else if (event.type === 'checkout.session.async_payment_failed') {
+      const session = event.data.object as Stripe.Checkout.Session;
+      
+      await dbConnect();
+
+      try {
+        // Сначала пытаемся найти и обновить существующий платеж
+        const existingPayment = await Payment.findOneAndUpdate(
+          { sessionId: session.id },
+          { status: 'failed' },
+          { new: true }
+        );
+
+        // Если платеж не найден, создаем новый
+        if (!existingPayment) {
+          const payment = new Payment({
+            user: session.metadata?.userId || undefined,
+            email: session.metadata?.userEmail || session.customer_details?.email || null,
+            amount: session.amount_total || 0,
+            currency: session.currency || 'usd',
+            status: 'failed',
+            sessionId: session.id,
+            paymentIntentId: session.payment_intent as string || undefined,
+          });
+
+          await payment.save();
+          console.log('Async failed payment saved:', session.id);
+        } else {
+          console.log('Payment status updated to failed (async):', session.id);
+        }
+
+      } catch (dbError) {
+        console.error('Error saving async failed payment:', dbError);
       }
     }
 
@@ -131,20 +184,33 @@ export async function POST(request: NextRequest) {
       await dbConnect();
 
       try {
-        const payment = new Payment({
-          user: session.metadata?.userId || undefined,
-          email: session.metadata?.userEmail || session.customer_details?.email || null,
-          amount: session.amount_total || 0,
-          currency: session.currency || 'usd',
-          status: 'canceled',
-          sessionId: session.id,
-        });
+        // Проверяем, не существует ли уже запись
+        const existingPayment = await Payment.findOne({ sessionId: session.id });
+        
+        if (!existingPayment) {
+          const payment = new Payment({
+            user: session.metadata?.userId || undefined,
+            email: session.metadata?.userEmail || session.customer_details?.email || null,
+            amount: session.amount_total || 0,
+            currency: session.currency || 'usd',
+            status: 'canceled',
+            sessionId: session.id,
+          });
 
-        await payment.save();
-        console.log('Canceled payment saved:', session.id);
+          await payment.save();
+          console.log('Expired payment saved:', session.id);
+        } else {
+          // Обновляем статус существующего платежа
+          await Payment.findOneAndUpdate(
+            { sessionId: session.id },
+            { status: 'canceled' },
+            { new: true }
+          );
+          console.log('Payment status updated to canceled:', session.id);
+        }
 
       } catch (dbError) {
-        console.error('Error saving canceled payment:', dbError);
+        console.error('Error handling expired payment:', dbError);
       }
     }
 
