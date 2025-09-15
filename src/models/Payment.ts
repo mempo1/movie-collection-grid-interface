@@ -27,7 +27,7 @@ const PaymentSchema = new Schema<IPayment>({
   amount: {
     type: Number,
     required: true,
-    min: [50, 'Minimum amount is 50 cents'] // минимум 50 центов
+    min: [50, 'Minimum amount is 50 cents'] 
   },
   currency: {
     type: String,
@@ -54,9 +54,8 @@ const PaymentSchema = new Schema<IPayment>({
   timestamps: true
 });
 
-// Индексы
 PaymentSchema.index({ sessionId: 1 }, { unique: true });
-PaymentSchema.index({ createdAt: -1 }); // сортировка по убыванию даты
+PaymentSchema.index({ createdAt: -1 }); 
 PaymentSchema.index({ status: 1 });
 PaymentSchema.index({ user: 1 });
 
