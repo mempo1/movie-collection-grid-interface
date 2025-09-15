@@ -1,33 +1,25 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-export default function SuccessPage() {
+export const dynamic = 'force-dynamic';
+
+function Loading() {
+  return (
+    <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-400 mx-auto mb-4"></div>
+        <p className="text-gray-300">Обрабатываем ваш платеж...</p>
+      </div>
+    </div>
+  );
+}
+
+function SuccessView() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('session_id');
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-400 mx-auto mb-4"></div>
-          <p className="text-gray-300">Обрабатываем ваш платеж...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
@@ -43,12 +35,7 @@ export default function SuccessPage() {
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 13l4 4L19 7"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
           </div>
@@ -57,7 +44,7 @@ export default function SuccessPage() {
           <h1 className="text-4xl font-bold mb-4 text-green-400">
             Дякуємо за підтримку!
           </h1>
-          
+
           <p className="text-xl text-gray-300 mb-8">
             Ваш платеж успешно обработан. Мы очень ценим вашу поддержку!
           </p>
@@ -74,22 +61,11 @@ export default function SuccessPage() {
 
           {/* Дополнительная информация */}
           <div className="bg-blue-900/20 border border-blue-700 rounded-lg p-6 mb-8">
-            <h3 className="text-lg font-semibold mb-3 text-blue-300">
-              Что дальше?
-            </h3>
+            <h3 className="text-lg font-semibold mb-3 text-blue-300">Что дальше?</h3>
             <ul className="text-left text-gray-300 space-y-2">
-              <li className="flex items-start">
-                <span className="text-blue-400 mr-2">•</span>
-                Вы получите подтверждение на email
-              </li>
-              <li className="flex items-start">
-                <span className="text-blue-400 mr-2">•</span>
-                Ваша поддержка поможет нам улучшить проект
-              </li>
-              <li className="flex items-start">
-                <span className="text-blue-400 mr-2">•</span>
-                Следите за обновлениями в нашем проекте
-              </li>
+              <li className="flex items-start"><span className="text-blue-400 mr-2">•</span>Вы получите подтверждение на email</li>
+              <li className="flex items-start"><span className="text-blue-400 mr-2">•</span>Ваша поддержка поможет нам улучшить проект</li>
+              <li className="flex items-start"><span className="text-blue-400 mr-2">•</span>Следите за обновлениями в нашем проекте</li>
             </ul>
           </div>
 
@@ -111,18 +87,21 @@ export default function SuccessPage() {
 
           {/* Социальные сети или дополнительные ссылки */}
           <div className="mt-12 pt-8 border-t border-gray-700">
-            <p className="text-gray-400 text-sm mb-4">
-              Поделитесь нашим проектом с друзьями!
-            </p>
+            <p className="text-gray-400 text-sm mb-4">Поделитесь нашим проектом с друзьями!</p>
             <div className="flex justify-center space-x-4">
-              {/* Здесь можно добавить ссылки на социальные сети */}
-              <span className="text-gray-500 text-sm">
-                Спасибо за вашу поддержку! 
-              </span>
+              <span className="text-gray-500 text-sm">Спасибо за вашу поддержку! </span>
             </div>
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <SuccessView />
+    </Suspense>
   );
 }
