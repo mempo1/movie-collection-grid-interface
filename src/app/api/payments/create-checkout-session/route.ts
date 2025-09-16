@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const stripe = new Stripe(secret, { apiVersion: '2024-06-20' });
+  const stripe = new Stripe(secret, { apiVersion: '2023-10-16' });
 
   
   let body: any;
